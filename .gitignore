@@ -1,9 +1,8 @@
-# Secrets
+# Private Stuff (Keep Safe)
 .env
-
-# Spotify auth caches
 .cache-playlist
 .cache-playback
+MainPrivateRelease.py
 
 # Logs
 song_requests.txt
@@ -14,3 +13,7 @@ __pycache__/
 *.pyc
 .venv
 SongBlacklist.py
+
+# Other
+To Do.txt
+

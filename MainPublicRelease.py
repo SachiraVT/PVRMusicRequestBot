@@ -93,13 +93,12 @@ def handle_song_request():
     SongText = None
     for attempt in range(1, 4):
         text = listen(initial_prompt=song_prompt)
-        print(f"Speech Recognition thinks you said: {text}")  # Remove after Testing
-
+        print(f"Speech Recognition thinks you said: {text}")  # Debug Line, Remove is Wanted
         if text:
             SongText = text
             break
         else:
-            print(f"Got empty or junk input, attempt {attempt}/3") # Remove after Testing 
+            print(f"Got empty or junk input, attempt {attempt}/3") # Debug Line, Remove is Wanted
             osc.chatbox_input(f"Couldn't hear that, please try again. ({attempt}/{3})", immediate=True)
 
 
@@ -115,7 +114,7 @@ def handle_song_request():
         return
 
     track = tracks[0]
-    print(f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?") # Remove after Testing 
+    print(f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?") # Debug Line, Remove is Wanted 
     osc.chatbox_input(f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?", immediate=True)
 
     confirmation = None
@@ -129,15 +128,14 @@ def handle_song_request():
             confirmation = conf_text
             break
         else:
-            print(f"Couldn't understand response, attempt {confirm_attempt}/3")  # Remove after Testing
+            print(f"Couldn't understand response, attempt {confirm_attempt}/3")  # Debug Line, Remove is Wanted
             osc.chatbox_input(f"Couldn't understand response, please try again. ({confirm_attempt}/3)", immediate=True)
  
     if not confirmation:
-        print("Could not get confirmation, please ask a Staff Member for Help.")  # Remove after Testing
+        print("Could not get confirmation, please ask a Staff Member for Help.")  # Debug Line, Remove is Wanted
         osc.chatbox_input("Could not get confirmation, please ask a Staff Member for Help.", immediate=True)
         return
  
-    # ── Step 4: act on confirmation ────────────────────────────────────────────
     best_yes = max(fuzz.ratio(confirmation, w) for w in yes_words)
     best_no  = max(fuzz.ratio(confirmation, w) for w in no_words)
  
@@ -153,29 +151,29 @@ def handle_song_request():
         if (track_name.lower() in normalized_blacklist
                 or artist_name.lower() in normalized_blacklist
                 or full_name.lower() in normalized_blacklist):
-            print("This Song/Artist is not Allowed to be Added to Playlist")  # Remove after Testing
+            print("This Song/Artist is not Allowed to be Added to Playlist")  # Debug Line, Remove is Wanted
             osc.chatbox_input("This Song/Artist is not Allowed to be Added to Playlist")
             log_song_request(track_name, artist_name, "Blocked")
  
         elif is_track_in_playlist(track['id'], PLAYLIST_ID):
-            print("Song is already in the Playlist")  # Remove after Testing
+            print("Song is already in the Playlist")  # Debug Line, Remove is Wanted
             osc.chatbox_input("That song is already in the Playlist!", immediate=True)
             log_song_request(track_name, artist_name, "Duplicate")
  
         else:
             try:
                 sp_playback.add_to_queue(track['id'])
-                print("Song added to queue on playback account")  # Remove after Testing
+                print("Song added to queue on playback account")  # Debug Line, Remove is Wanted
             except Exception as e:
                 print(f"Could not add to queue (no active device): {e}")
  
             sp_playlist.playlist_add_items(playlist_id=PLAYLIST_ID, items=[track['uri']])
-            print("Song was added to Playlist")  # Remove after Testing
+            print("Song was added to Playlist")  # Debug Line, Remove is Wanted
             osc.chatbox_input("This Song was added to the Playlist", immediate=True)
             log_song_request(track_name, artist_name, "Added")
  
     elif best_no > 70:
-        print("Song was not able to be added to Playlist, Ask a Staff Member for Help")  # Remove after Testing
+        print("Song was not able to be added to Playlist, Ask a Staff Member for Help")  # Debug Line, Remove is Wanted
         osc.chatbox_input("Song was not able to be added to Playlist, Ask a Staff Member for Help")
         log_song_request(track['name'], track['artists'][0]['name'], "Failed")
  
@@ -193,21 +191,14 @@ def listen_for_trigger():
         if not text:
             continue
  
-        print("Speech Recognition thinks you said " + text)  # Remove after Testing
+        print("Speech Recognition thinks you said " + text)  # Debug Line, Remove is Wanted
  
         exact_match = any(phrase in text for phrase in trigger_phrases)
         fuzzy_match = any(fuzz.partial_ratio(phrase, text) > 80 for phrase in trigger_phrases)
  
         if exact_match or fuzzy_match:
-            print("Listening for Song Request")  # Remove after Testing
+            print("Listening for Song Request")  # Debug Line, Remove is Wanted
             osc.chatbox_input("Listening for Song Request", immediate=True)
             handle_song_request()
 
 listen_for_trigger()
-
-# TO DO by Priorty
-# If Gets Wrong Song and is told No then recommend the next song on search list
-# Try to get make it so I won't hear the instance from the bot but the code picks it up
-# Make Way for Song to Be added to Blacklist after 3 votes but with a force way for staff
-# If told Hey Clanker say I have feelings too you know
-# Make Play Hamburger Sound if Given a key word 
