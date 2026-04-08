@@ -24,4 +24,7 @@ Input the Details into the appropiate sections at the top of the code.
         "Song/Artist 2",
     ]
 ```
+
+4. Lastly, you will need to input your own Spotify Playlist ID, to find your playlist's ID look for the first set of charcters in the playlists url after https://open.spotify.com/playlist/ 
+> You don't need the part after si=
 **This code is still heavily WIP but the base part works as intended.**
