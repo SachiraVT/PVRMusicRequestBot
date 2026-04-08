@@ -26,5 +26,5 @@ Input the Details into the appropiate sections at the top of the code.
 ```
 **This code is still heavily WIP but the base part works as intended.**
 
-![PrideVR Logo](https://files.catbox.moe/smv8bf.png)
+![PrideVR Logo](https://files.catbox.moe/1mr7t2.png)
 
