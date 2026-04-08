@@ -8,24 +8,24 @@ This Bot uses Whisper to listen for certain trigger phrases and then uses Spotip
 ### Data you need to Input Yourself
 
 1. You will need to input your own Client ID and Secret from the [Spotify Developer Dashboard](https://developer.spotify.com) to use this 
-Input the Details into the appropiate sections at the top of the code.
+Input the Details into the appropiate sections in the .env file. (Example Included)
 
-2.  You will also need to pick what mic you want the program to use by changing the **deviceindex**. To find out what number to use paste this code near the top of the code and run it once. 
+2. You will need to input your own Spotify Playlist ID in the .env file, to find your playlist's ID look for the first set of charcters in the playlists url after spotify.com/playlist/ 
+- You don't need the part after si=
+
+3.  You will also need to pick what mic you want the program to use by changing the **deviceindex**. To find out what number to use paste this code near the top of the code and run it once. 
 ``` 
         for index, name in enumerate(sr.Microphone.list_microphone_names()):
           print(f"Microphone {index}: {name}")    
 ```
 - After you find you mic's index number and change the device index number (Located where is says **deviceindex = device_index=6**) you can remove the code you pasted above.
 
-3. You also need to create a file called **SongBlacklist.py** input into the file Songs/Artists you don't want to be allowed to be requested. See below how to format the file
+4. Lastly, you need to create a file called **SongBlacklist.py** input into the file Songs/Artists you don't want to be allowed to be requested. See below how to format the file
 ```    
         blacklisted_songs = [
         "Song/Artist 1",
         "Song/Artist 2",
     ]
 ```
-
-4. Lastly, you will need to input your own Spotify Playlist ID, to find your playlist's ID look for the first set of charcters in the playlists url after spotify.com/playlist/ 
-- You don't need the part after si=
 
 **This code is still heavily WIP but the base part works as intended.**
