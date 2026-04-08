@@ -1,0 +1,15 @@
+# Secrets
+.env
+
+# Spotify auth caches
+.cache-playlist
+.cache-playback
+
+# Logs
+song_requests.txt
+
+
+# Python
+__pycache__/
+*.pyc
+.venv
