@@ -1,8 +1,8 @@
-## PrideVR's Offical Music Request Bot 
+## PrideVR's Official Music Request Bot 
 
 Basic Music Request Bot used for the PrideVR VRChat Group.
 
-This Bot uses Whisper to listen for certain trigger phrases and then uses Spotipy to access search on Spotify for the song the individual requests and add it to the [Offical PrideVR Playlist](https://open.spotify.com/playlist/5AJkdp9MGIwWLWKyjc71OY?si=a1b899164dce4dae) and to the individual's that is playing the music's queue. It also logs what songs were requested to use for moderation info
+This Bot uses Whisper to listen for certain trigger phrases and then uses Spotipy to access search on Spotify for the song the individual requests and add it to the [Official PrideVR Playlist](https://open.spotify.com/playlist/5AJkdp9MGIwWLWKyjc71OY?si=a1b899164dce4dae) and to the individual's that is playing the music's queue. It also logs what songs were requested to use for moderation info
 
 
 ### Data you need to Input Yourself
