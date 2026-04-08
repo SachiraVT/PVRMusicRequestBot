@@ -1,7 +1,7 @@
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import os
-import vrchatosc
+from pythonosc import udp_client
 from SongBlacklist import blacklisted_songs
 from datetime import datetime
 import re
@@ -19,7 +19,7 @@ SAMPLE_RATE = 16000
 RECORD_SECONDS = 5
 DEVICE_INDEX = 6
 
-osc = vrchatosc.VRChatOSC()
+client = udp_client.SimpleUDPClient("127.0.0.1", 9000)
 PLAYLIST_ID = os.getenv("TARGET_PLAYLIST_ID")
 
 sp_playlist = spotipy.Spotify(auth_manager=SpotifyOAuth(
@@ -99,23 +99,23 @@ def handle_song_request():
             break
         else:
             print(f"Got empty or junk input, attempt {attempt}/3") # Debug Line, Remove is Wanted
-            osc.chatbox_input(f"Couldn't hear that, please try again. ({attempt}/{3})", immediate=True)
+            client.send_message("/chatbox/input", [f"Couldn't hear that, please try again. ({attempt}/{3})", True])
 
 
     if not SongText:
-        osc.chatbox_input("Could not get song name, please ask a Staff Member for Help.", immediate=True)
+        client.send_message("/chatbox/input", [f"Could not get song name, please ask a Staff Member for Help.", True])
         return
 
     results = sp_playlist.search(q=SongText, type="track", limit=1)
     tracks = results["tracks"]["items"]
 
     if not tracks:
-        osc.chatbox_input("No tracks found.", immediate=True)
+        client.send_message("/chatbox/input", [f"No tracks found.", True])
         return
 
     track = tracks[0]
     print(f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?") # Debug Line, Remove is Wanted 
-    osc.chatbox_input(f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?", immediate=True)
+    client.send_message("/chatbox/input", [f"Found: {track['name']} by {track['artists'][0]['name']} - Is this Correct?", True])
 
     confirmation = None
     for confirm_attempt in range(1, 4):
@@ -129,11 +129,11 @@ def handle_song_request():
             break
         else:
             print(f"Couldn't understand response, attempt {confirm_attempt}/3")  # Debug Line, Remove is Wanted
-            osc.chatbox_input(f"Couldn't understand response, please try again. ({confirm_attempt}/3)", immediate=True)
+            client.send_message("/chatbox/input", [f"Couldn't understand response, please try again. ({confirm_attempt}/3)", True])
  
     if not confirmation:
         print("Could not get confirmation, please ask a Staff Member for Help.")  # Debug Line, Remove is Wanted
-        osc.chatbox_input("Could not get confirmation, please ask a Staff Member for Help.", immediate=True)
+        client.send_message("/chatbox/input", [f"Could not get confirmation, please ask a Staff Member for Help.", True])
         return
  
     best_yes = max(fuzz.ratio(confirmation, w) for w in yes_words)
@@ -152,12 +152,12 @@ def handle_song_request():
                 or artist_name.lower() in normalized_blacklist
                 or full_name.lower() in normalized_blacklist):
             print("This Song/Artist is not Allowed to be Added to Playlist")  # Debug Line, Remove is Wanted
-            osc.chatbox_input("This Song/Artist is not Allowed to be Added to Playlist")
+            client.send_message("/chatbox/input", [f"This Song/Artist is not Allowed to be Added to Playlist", True])
             log_song_request(track_name, artist_name, "Blocked")
  
         elif is_track_in_playlist(track['id'], PLAYLIST_ID):
             print("Song is already in the Playlist")  # Debug Line, Remove is Wanted
-            osc.chatbox_input("That song is already in the Playlist!", immediate=True)
+            client.send_message("/chatbox/input", [f"That song is already in the Playlist!", True])
             log_song_request(track_name, artist_name, "Duplicate")
  
         else:
@@ -169,16 +169,16 @@ def handle_song_request():
  
             sp_playlist.playlist_add_items(playlist_id=PLAYLIST_ID, items=[track['uri']])
             print("Song was added to Playlist")  # Debug Line, Remove is Wanted
-            osc.chatbox_input("This Song was added to the Playlist", immediate=True)
+            client.send_message("/chatbox/input", [f"This Song was added to the Playlist", True])
             log_song_request(track_name, artist_name, "Added")
  
     elif best_no > 70:
         print("Song was not able to be added to Playlist, Ask a Staff Member for Help")  # Debug Line, Remove is Wanted
-        osc.chatbox_input("Song was not able to be added to Playlist, Ask a Staff Member for Help")
+        client.send_message("/chatbox/input", [f"Song was not able to be added to Playlist, Ask a Staff Member for Help", True])
         log_song_request(track['name'], track['artists'][0]['name'], "Failed")
  
     else:
-        osc.chatbox_input("Can you Speak Up?", immediate=True)
+        client.send_message("/chatbox/input", [f"Can you Speak Up?", True])
     
 def listen_for_trigger():
     trigger_phrases = ["song request", "music request", "request song", "play a song", "add a song"]
@@ -198,7 +198,7 @@ def listen_for_trigger():
  
         if exact_match or fuzzy_match:
             print("Listening for Song Request")  # Debug Line, Remove is Wanted
-            osc.chatbox_input("Listening for Song Request", immediate=True)
+            client.send_message("/chatbox/input", [f"Listening for Song Request", True])
             handle_song_request()
 
 listen_for_trigger()

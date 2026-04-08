@@ -3,6 +3,7 @@
 .cache-playlist
 .cache-playback
 MainPrivateRelease.py
+requirements-private.txt
 
 # Logs
 song_requests.txt
@@ -11,7 +12,6 @@ song_requests.txt
 # Python
 __pycache__/
 *.pyc
-.venv
 SongBlacklist.py
 
 # Other
