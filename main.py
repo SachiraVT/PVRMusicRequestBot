@@ -17,8 +17,9 @@ r.pause_threshold = 1.2
 r.phrase_threshold = 0.3
 osc = vrchatosc.VRChatOSC()
 PLAYLIST_ID = os.getenv("TARGET_PLAYLIST_ID")
+deviceindex = device_index=6
 
-with sr.Microphone(device_index=6) as source:
+with sr.Microphone(deviceindex) as source:
     print("Calibrating for ambient noise...")
     r.adjust_for_ambient_noise(source, duration=2)
     print(f"Energy threshold set to: {r.energy_threshold}")
@@ -73,7 +74,7 @@ def handle_song_request():
     while not SongText and attempts < max_retries:
         attempts += 1
         audio = None
-        with sr.Microphone(device_index=6) as source:
+        with sr.Microphone(deviceindex) as source:
             audio = r.listen(source)
 
         try:
@@ -112,7 +113,7 @@ def handle_song_request():
 
         while confirm_attempts < max_confirm_retries:
             confirm_attempts += 1
-            with sr.Microphone(device_index=6) as source:
+            with sr.Microphone(deviceindex) as source:
                 audio = r.listen(source)
             try:
                 raw_conf = r.recognize_whisper(audio, model="small", initial_prompt="yes, no, yeah, nope, correct, wrong").lower()
@@ -183,7 +184,7 @@ def listen_for_trigger():
         print("Listening...")
 
         try:
-            with sr.Microphone(device_index=6) as source:
+            with sr.Microphone(deviceindex) as source:
                 audio = r.listen(source)
 
             recognized_text = r.recognize_whisper(audio, model="small", initial_prompt="song request, music request, request song, play a song, add a song").lower()

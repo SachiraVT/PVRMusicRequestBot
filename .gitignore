@@ -13,3 +13,4 @@ song_requests.txt
 __pycache__/
 *.pyc
 .venv
+SongBlacklist.py
