@@ -17,7 +17,7 @@ model = WhisperModel("small", device="cpu", compute_type="int8")
 
 SAMPLE_RATE = 16000
 RECORD_SECONDS = 5
-DEVICE_INDEX = 6
+DEVICE_INDEX = int(os.getenv("DEVICE_INDEX"))
 
 client = udp_client.SimpleUDPClient("127.0.0.1", 9000)
 PLAYLIST_ID = os.getenv("TARGET_PLAYLIST_ID")
@@ -91,6 +91,7 @@ def handle_song_request():
     no_words  = ["no", "nope", "nah", "wrong", "incorrect"]
 
     SongText = None
+
     for attempt in range(1, 4):
         text = listen(initial_prompt=song_prompt)
         print(f"Speech Recognition thinks you said: {text}")  # Debug Line, Remove is Wanted
