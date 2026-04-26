@@ -2,7 +2,7 @@
 
 Basic Music Request Bot used for the [PrideVR VRChat Group](https://vrchat.com/home/group/grp_548b8449-2fc6-48b8-bbdf-b380401d9b66).
 
-This Bot uses [Faster-Whisper](https://github.com/SYSTRAN/faster-whisper) and [soundevice](https://github.com/spatialaudio/python-sounddevice) to listen for certain trigger phrases and then uses [Spotipy](https://github.com/spotipy-dev/spotipy) to access and search on Spotify for the song the individual requests and add it to a playlist as well as to the individual's that is playing the music's queue. It also logs what songs were requested to use for moderation info
+This Bot uses [Discord.py](https://github.com/Rapptz/discord.py) to listen for certain trigger phrases and then uses [Spotipy](https://github.com/spotipy-dev/spotipy) and [YTMusicAPI](https://github.com/sigma67/ytmusicapi) to access and search on Spotify/YTMusic for the song the individual requests and add it to a playlist as well as to the individual's that is playing the music's queue. It also logs what songs were requested to use for moderation info
 
 
 ### Data you need to Input Yourself in .env File 
@@ -13,10 +13,8 @@ This Bot uses [Faster-Whisper](https://github.com/SYSTRAN/faster-whisper) and [s
 2. You will need to input your own Spotify Playlist ID, to find your playlist's ID look for the first set of charcters in the playlists url after spotify.com/playlist/ 
 - You don't need the part after si=
 
-3.  You will also need to pick what mic you want the program to use by unputting the device index number To find out what number to use paste this code in the VSCode's terminal and run it once. 
-``` 
-python -c "import sounddevice as sd; print(sd.query_devices())"
-```
+3.  You will also need to grab the bot token from the [Discord Devolper Portal](https://discord.com/developers/home) and input the in file along side the other discord related stuff 
+
 ### Other Data that Needs to be Created
 You need to also create a file called **SongBlacklist.py**, input into the file Songs/Artists you don't want to be allowed to be requested. See below for how to format the file
 ```    
